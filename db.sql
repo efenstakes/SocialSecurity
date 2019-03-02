@@ -40,10 +40,10 @@ create table alerts(
 
 
 
-create table alert_buddies (
+create table emergency_contacts (
   id int,
-  me_id int,
-  buddy_id varchar(15),
+  user_id int,
+  emergency_contact varchar(15),
   foreign key(me_id) references users(id),
   primary key(id)
 );
