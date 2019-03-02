@@ -43,7 +43,8 @@ create table alerts(
 create table emergency_contacts (
   id int,
   user_id int,
-  emergency_contact varchar(15),
+  emergency_contact_1 varchar(15),
+  emergency_contact_2 varchar(15),
   foreign key(user_id) references users(id),
   primary key(id)
 );
