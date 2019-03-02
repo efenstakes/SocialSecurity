@@ -17,13 +17,13 @@ create table users (
 );
 
 
-create table security_spots (
+create table security_hubs (
     id int auto_increment,
     name varchar(34) not null,
     city varchar(20),
     lat varchar(20),
     lng varchar(20),
-    spot_type enum ('HOSPITAL', 'POLICE_STATION'),
+    hub_type enum ('HOSPITAL', 'POLICE_STATION'),
     primary key(id)
 );
 
