@@ -44,6 +44,6 @@ create table emergency_contacts (
   id int,
   user_id int,
   emergency_contact varchar(15),
-  foreign key(me_id) references users(id),
+  foreign key(user_id) references users(id),
   primary key(id)
 );
