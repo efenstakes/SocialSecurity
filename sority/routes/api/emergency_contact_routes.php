@@ -36,7 +36,7 @@
 
   // @not-worked
   // delete an emergency-contact given their id
-  $app->post("/api/emergency-contact/{id}[/]", function($request, $response, $args){
+  $app->post("/api/emergency-contact/delete/{id}[/]", function($request, $response, $args){
   	$return = array('deleted'=> true);
 
     $contact = new EmergencyContact();
