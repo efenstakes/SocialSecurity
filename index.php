@@ -44,12 +44,23 @@
         return new Slim\Views\Twig($template_dir, compact('cache')); 
     };
 
+    
+    // middleware to protect routes that need users to have sessions
+    $session_protector_middleware = function ($request, $response, $next) {
+      
+      if( has_session() ){
+        $response = $next($request, $response); // next($request, $response);
+      }else{
+        $response->getBody()->write(json_encode( array( 'error'=> 'NO_SESSION' ) ));
+      }  
+
+      return $response;
+    };
+
 
     // start handling routes
     // include routing files
     // include_once("./sority/routes/api/user_routes.php");
-
-
 
     
     // check if a session exists 
