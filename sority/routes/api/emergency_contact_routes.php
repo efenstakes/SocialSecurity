@@ -10,7 +10,7 @@
   $app->post("/api/emergency-contact/save[/]", function($request, $response, $args){
     $return = array('saved'=> false, 'id'=> NULL, 'errors'=> array());
     
-    $user_id = get_session()['app_session']['user_id'];
+    $user_id = $request->getParam('user_id'); // get_session()['app_session']['user_id'];
 
     $contact_1 = trim($request->getParam('contact_1'));
     $contact_2 = trim($request->getParam('contact_2'));
@@ -23,7 +23,7 @@
 
     return json_encode($return);
     
-  })->add($session_protector_middleware);
+  }); // ->add($session_protector_middleware);
 
 
   // get all user emergency contacts 
@@ -31,14 +31,14 @@
     $all = array();
     $all = (new EmergencyContact())->getAllForUser($args['id']);
     return json_encode($all);
-  })->add($session_protector_middleware);
+  }); // ->add($session_protector_middleware);
 
   // get all user emergency contacts 
   $app->post("/api/emergency-contact/all[/]", function($request, $response, $args){
     $all = array();
     $all = (new EmergencyContact())->getAll();
     return json_encode($all);
-  })->add($session_protector_middleware);
+  }); // ->add($session_protector_middleware);
 
 
   // @not-worked
@@ -48,7 +48,7 @@
 
     $contact = new EmergencyContact();
     $contact_id = $args['id'];
-    $user_id = get_session()['app_session']['user_id'];
+    $user_id = $request->getParam('user_id'); // get_session()['app_session']['user_id'];
     
     $contact->setID($contact_id)->setUser(array( 'id'=> $user_id ));
 
@@ -56,7 +56,7 @@
 
     return json_encode($return);
 
-  })->add($session_protector_middleware);
+  }); // ->add($session_protector_middleware);
 
 
 

@@ -207,7 +207,7 @@
       $this_user->setID($user['id'])
                  ->setPassword($user['password'])
                  ->setName($user['name'])
-                 ->setContacts(array( 'email' => $user['email'] ))
+                 ->setContacts(array( 'phone' => $user['phone'] ))
                  ->setType($user['user_type']);
 
       return $this_user;

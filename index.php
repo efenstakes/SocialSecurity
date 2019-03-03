@@ -32,6 +32,7 @@
     require_once("sority/models/User.php");
     require_once("sority/models/EmergencyContact.php");
     require_once("sority/models/SecurityHub.php");
+    require_once("sority/models/Alert.php");
     require_once("sority/models/Utility.php");
 
     // setup slim
@@ -69,6 +70,7 @@
     include_once("./sority/routes/api/user_routes.php");
     include_once("./sority/routes/api/emergency_contact_routes.php");
     include_once("./sority/routes/api/security_hub_routes.php");
+    include_once("./sority/routes/api/alert_routes.php");
 
     
     // check if a session exists 

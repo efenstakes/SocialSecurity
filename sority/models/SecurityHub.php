@@ -207,7 +207,7 @@
     // make the details of a security hub
     // database data is passed in an array then this method returns a security hub instance
     public static function make($hub_properties){
-      $this_hub = new User();
+      $this_hub = new SecurityHub();
 
       // unpack the properties from the hub_properties array
       $hub = $hub_properties['security_hub'];
@@ -242,11 +242,31 @@
 
       $stmt = $this->db_handle->prepare($query);
       $stmt->execute();
-      $all = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $hubs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $all = array_map(function($hub){
+                return SecurityHub::make(array( 'security_hub'=> $hub ))->getProperties();
+      }, $hubs);
 
       return $all;
     }
 
+
+    // get all security hubs
+    public function getAllOfType($type){
+      $all = array();
+      $query = "select * from security_hubs where hub_type like ?";
+
+      $stmt = $this->db_handle->prepare($query);
+      $stmt->execute(array( $type ));
+      $hubs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $all = array_map(function($hub){
+                return SecurityHub::make(array( 'security_hub'=> $hub ))->getProperties();
+      }, $hubs);
+
+      return $all;
+    }
 
 
 
