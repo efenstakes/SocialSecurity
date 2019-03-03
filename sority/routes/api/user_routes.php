@@ -1,13 +1,13 @@
 <?php
   /**
-    keep the patient routing code .ex
-    /patients, /patient[/] , /patient/[..] 
+    keep the user routing code .ex
+    /users, /user[/] , /user/[..] 
   **/
   
   // get the details that the user entered in the form
   // start saving user data to the db and return an array
   // array( 'added'=> boolean(), 'user'=> (new User()) )
-  $app->post("/api/users/save[/]", function($request, $response, $args){
+  $app->post("/api/user/save[/]", function($request, $response, $args){
     $return = array('saved'=> false, 'id'=> NULL, 'errors'=> array());
 
     $name = trim($request->getParam('name'));
@@ -27,8 +27,8 @@
 
    
 
-    if( $pwd === $confirmation_password && !$new_patient->nameUsed() ){
-        $return = $new_patient->save();
+    if( $pwd === $confirmation_password && !$new_user->nameUsed() ){
+        $return = $new_user->save();
     
         //return json_encode(array('got_here'=> true));
                
@@ -44,16 +44,17 @@
   });
 
 
-  // check if a patient has a session 
+  // check if a user has a session 
   $app->post("/api/user/has-session[/]", function($request, $response, $args){
     $return = array('has_session'=> false);
 
-    $return['has_session'] = has_session();
+    $return['has_session'] = isset($_SESSION['app_session']);
+    $return['session'] = $_SESSION;
 
     return json_encode($return);
   });
 
-  // check if a patient exists by id
+  // check if a user exists by id
   $app->post("/api/user/exists[/]", function($request, $response, $args){
     $return = array('exists'=> false);
     $id = $request->getParam('id');
@@ -63,23 +64,23 @@
     return json_encode($return);
   });
 
-  // check if a patient exists by id
+  // check if a user exists by id
   $app->post("/api/user/all[/]", function($request, $response, $args){
     $all = array();
     $all = (new User())->getAll();
     return json_encode($all);
   });
 
-  // check if a patient name is used
-  $app->post("/api/patient/name-used[/]", function($request, $response, $args){
+  // check if a user name is used
+  $app->post("/api/user/name-used[/]", function($request, $response, $args){
     $name = $request->getParam('name');
 
-    $name_used = (new Patient())->setName($name)->nameUsed();
+    $name_used = (new User())->setName($name)->nameUsed();
 
     return json_encode(array('name_used'=> $name_used));
   });
 
-  // check if a patient account exists
+  // check if a user account exists
   $app->post("/api/user/account-exists[/]", function($request, $response, $args){
     $return = array('exists'=> false);
 
@@ -99,8 +100,8 @@
   });
 
 
-  // get details of a patient given their id
-  $app->map(['GET', 'POST'], "/api/user/session-data[/]", function($request, $response, $args){
+  // get details of a user given their id
+  $app->post("/api/user/session-data[/]", function($request, $response, $args){
     $id = get_session()['app_session']['user_id'];
 
     $details = (new User())->setID($id)->setProperties()->getProperties();
@@ -108,7 +109,7 @@
     return json_encode(array('user'=> $details));
   });
 
-  // get details of a patient given their id
+  // get details of a user given their id
   $app->map(['GET', 'POST'], "/api/user/details/{id}[/]", function($request, $response, $args){
     $id = $args['id'];
 
@@ -117,8 +118,8 @@
     return json_encode(array('user'=> $details));
   });
 
-  // @not-worked
-  // delete a patient given their id
+
+  // delete a user given their id
   $app->post("/api/user/delete/{id}[/]", function($request, $response, $args){
   	$return = array('deleted'=> false);
     $user = new User();
@@ -147,9 +148,9 @@
   });
 
 
-  // this authenticates patient before they are taken to their account page
+  // this authenticates user before they are taken to their account page
   $app->post("/api/user/signin[/]", function($request, $response, $args){
-    $return = array('authenticated'=> false);
+    $return = array('authenticated'=> false, 'user'=> array());
 
     $name = trim($request->getParam("name"));
     $password = trim($request->getParam("password"));
@@ -158,9 +159,10 @@
     $exists = $user->setName($name)->setPassword($password)->accountExists();
 
     if($exists){ 
-        $_SESSION['app_session']['user_id'] = $patient->findID();
+        $_SESSION['app_session']['user_id'] = $user->findID();
         $_SESSION['app_session']['user_type'] ='user';
         $return['authenticated'] = true;
+        $return['session'] = $_SESSION;
         $return['user'] = $user->setID($user->findID())
                                      ->setProperties()
                                      ->getProperties();

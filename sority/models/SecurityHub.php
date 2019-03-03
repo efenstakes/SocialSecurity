@@ -81,7 +81,7 @@
         $this->db_handle->beginTransaction();
 
         $query = "insert into security_hubs " 
-                  ." ( name, city, lat, lng, spot_type ) "
+                  ." ( name, city, lat, lng, hub_type ) "
                   ." values( ?, ?, ?, ?, ? )";
  
         $query_data = array(
@@ -217,7 +217,7 @@
                  ->setLocation(array( 
                       'city' => $hub['city'], 'lat' => $hub['lat'], 'lng' => $hub['lng']
                    ))
-                 ->setType($hub['spot_type']);
+                 ->setType($hub['hub_type']);
 
       return $this_hub;
     } // end of public static function make($hub_properties){ .. }
@@ -228,7 +228,7 @@
       
       $properties['id'] = $this->getID();
       $properties['name'] = $this->getName();
-      $properties['spot_type'] = $this->getType();
+      $properties['type'] = $this->getType();
       $properties['location'] = $this->getLocation();
 
       return $properties;

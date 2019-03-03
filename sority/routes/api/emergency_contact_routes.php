@@ -27,6 +27,13 @@
 
 
   // get all user emergency contacts 
+  $app->post("/api/emergency-contact/all/for-user/{id}[/]", function($request, $response, $args){
+    $all = array();
+    $all = (new EmergencyContact())->getAllForUser($args['id']);
+    return json_encode($all);
+  })->add($session_protector_middleware);
+
+  // get all user emergency contacts 
   $app->post("/api/emergency-contact/all[/]", function($request, $response, $args){
     $all = array();
     $all = (new EmergencyContact())->getAll();

@@ -15,6 +15,11 @@
     header("Access-Control-Allow-Headers: content-type, authorization");
     header("Access-Control-Allow-Credentials: true");
 
+    /*header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+    header("Access-Control-Allow-Headers: content-type, authorization");
+    */
+
     // include downloaded libraries
     require_once("./vendor/autoload.php");
 
@@ -24,9 +29,10 @@
     use Slim\Http\UploadedFile;
 
     // include app classes 
-    // require_once("sority/models/User.php");
-    // require_once("sority/models/SecuritySpot.php");
-    // require_once("sority/models/Utility.php");
+    require_once("sority/models/User.php");
+    require_once("sority/models/EmergencyContact.php");
+    require_once("sority/models/SecurityHub.php");
+    require_once("sority/models/Utility.php");
 
     // setup slim
     $app = new Slim\App([
@@ -60,7 +66,9 @@
 
     // start handling routes
     // include routing files
-    // include_once("./sority/routes/api/user_routes.php");
+    include_once("./sority/routes/api/user_routes.php");
+    include_once("./sority/routes/api/emergency_contact_routes.php");
+    include_once("./sority/routes/api/security_hub_routes.php");
 
     
     // check if a session exists 

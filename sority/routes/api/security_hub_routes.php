@@ -28,9 +28,23 @@
 
 
   // get all security hubs  
-  $app->post("/api/security-hub/all[/]", function($request, $response, $args){
+  $app->get("/api/security-hub/all[/]", function($request, $response, $args){
     $all = array();
     $all = (new SecurityHub())->getAll();
+    return json_encode($all);
+  });
+
+  // get all security hubs  
+  $app->get("/api/security-hub/all/{type}[/]", function($request, $response, $args){
+    $all = array();
+    $type = $args['type'];
+
+    if( $type == 'POLICE' || $type == 'police' ){
+       $all = (new SecurityHub())->getAllOfType('POLICE_STATION');  
+    }else{
+      $all = (new SecurityHub())->getAllOfType('HOSPITAL');
+    }
+    
     return json_encode($all);
   });
 
